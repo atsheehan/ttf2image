@@ -10,6 +10,8 @@
 #define UPPERCASE "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 #define LOWERCASE "abcdefghijklmnopqrstuvwxyz"
 
+#define PADDING 2
+
 #define START_CHAR  32
 #define END_CHAR    127
 #define TOTAL_CHARS END_CHAR - START_CHAR
@@ -66,8 +68,8 @@ int main(int argc, char *argv[]) {
   int chars_per_line = (int)ceil(sqrt((double)TOTAL_CHARS));
   int rows = chars_per_line;
 
-  int char_width = max_width + 1;
-  int char_height = max_height + 1;
+  int char_width = max_width + PADDING;
+  int char_height = max_height + PADDING;
 
   debug("char_width: %d, char_height: %d, chars_per_line: %d",
         char_width, char_height, chars_per_line);
@@ -85,8 +87,17 @@ int main(int argc, char *argv[]) {
     int row = i / chars_per_line;
     int col = i % chars_per_line;
 
-    dest.x = col * char_width;
-    dest.y = row * char_height;
+    /* Blit each character into the appropriate cell of the grid,
+       but add an offset depending on the width of the character
+       so that it is rendered in the center. */
+    int cell_x = col * char_width;
+    int cell_y = row * char_height;
+
+    int x_offset = (char_width - temp_surfaces[i]->w) / 2;
+    int y_offset = (char_height - temp_surfaces[i]->h) / 2;
+
+    dest.x = cell_x + x_offset;
+    dest.y = cell_y + y_offset;
 
     check(SDL_BlitSurface(temp_surfaces[i], NULL, out_surface, &dest) == 0,
           "Failed to blit onto final surface: %s", SDL_GetError());
