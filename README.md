@@ -5,7 +5,7 @@ rendering in an OpenGL application. Currently only a small subset
 of the ASCII table is rendered (32 to 127) which includes the
 alphanumeric characters and some punctuation. The range of characters
 rendered can be changed by adjusting the START_CHAR and END_CHAR
-#defines at the top of main.c.
+constants at the top of main.c.
 
 ## Usage
 
