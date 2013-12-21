@@ -14,7 +14,7 @@
 
 #define START_CHAR  32
 #define END_CHAR    127
-#define TOTAL_CHARS END_CHAR - START_CHAR
+#define TOTAL_CHARS (END_CHAR - START_CHAR)
 
 int main(int argc, char *argv[]) {
 
@@ -65,14 +65,14 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  int chars_per_line = (int)ceil(sqrt((double)TOTAL_CHARS));
-  int rows = chars_per_line;
+  int chars_per_line = (int)ceil(sqrt((double)(TOTAL_CHARS * max_height) / (double)max_width));
+  int rows = (int)ceil((double)TOTAL_CHARS / (double)chars_per_line);
 
   int char_width = max_width + PADDING;
   int char_height = max_height + PADDING;
 
-  debug("char_width: %d, char_height: %d, chars_per_line: %d",
-        char_width, char_height, chars_per_line);
+  debug("char_width: %d, char_height: %d, chars_per_line: %d, rows: %d",
+        char_width, char_height, chars_per_line, rows);
 
   int total_width = char_width * chars_per_line;
   int total_height = char_height * rows;
